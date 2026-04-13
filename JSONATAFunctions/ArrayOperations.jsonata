@@ -1,0 +1,15 @@
+// Fn1. Split an array into 4 equal parts:
+
+(
+  $len := $count($);
+  $chunk := $floor(($len + 3) / 4);
+
+  {
+    "part1": $map($, function($v, $i){ $i < $chunk ? $v : undefined }),
+    "part2": $map($, function($v, $i){ $i >= $chunk and $i < 2*$chunk ? $v : undefined }),
+    "part3": $map($, function($v, $i){ $i >= 2*$chunk and $i < 3*$chunk ? $v : undefined }),
+    "part4": $map($, function($v, $i){ $i >= 3*$chunk ? $v : undefined })
+  }
+)
+
+// Fn2:
