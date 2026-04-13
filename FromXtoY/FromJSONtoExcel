@@ -1,0 +1,32 @@
+Below is the snippet to convert any JSON flat file to Excel (Code for Custom Editor):
+
+let
+    Source = Json.Document(
+        File.Contents("C:\Add\Path\To\Your\File\FileName.json")
+    ),
+
+    // Convert list of records into a table (THIS IS THE LOOP)
+    #"Converted to Table" = Table.FromList(
+        Source,
+        Splitter.SplitByNothing(),
+        null,
+        null,
+        ExtraValues.Error
+    ),
+
+    // Expand each record into columns
+    #"Expanded Records" = Table.ExpandRecordColumn(
+        #"Converted to Table",
+        "Column1",
+        Record.FieldNames(Source{0})
+    ),
+
+    // Change types (adjust columns as needed)
+    #"Changed Type" = Table.TransformColumnTypes(
+        #"Expanded Records",
+        {
+        }
+    )
+
+in
+    #"Changed Type"
